@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../../appReducer";
 const Navbar = () => {
-  const { mode } = useSelector((state) => state.modePageinSavedVid || {});
+  const { mode } = useSelector((state) => state.modePageinSavedVid);
   const [showpop, setpop] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();

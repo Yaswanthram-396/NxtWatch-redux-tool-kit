@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 export default function Gaming() {
   const [allData, setData] = useState([]);
   const [loading, setloading] = useState(false);
-  const { mode } = useSelector((state) => state.modePageinSavedVid || {});
+  const { mode } = useSelector((state) => state.modePageinSavedVid);
   const dark = {
     backgroundColor: "rgb(24,24,24)",
   };

@@ -28,9 +28,7 @@ export function Panel({ props, setting }) {
   const darkMode = { color: "white" };
   const light = { color: "black" };
   const location = useLocation();
-  const { mode, pagein } = useSelector(
-    (state) => state.modePageinSavedVid || {}
-  );
+  const { mode, pagein } = useSelector((state) => state.modePageinSavedVid);
   const dispatch = useDispatch();
 
   const handlePage = (newItem) => {

@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 
 export default function App() {
   const navigate = useNavigate();
-  const { mode } = useSelector((state) => state.modePageinSavedVid || {});
+  const { mode } = useSelector((state) => state.modePageinSavedVid);
 
   useEffect(() => {
     const cookieToken = Cookies.get("jwt_token");
