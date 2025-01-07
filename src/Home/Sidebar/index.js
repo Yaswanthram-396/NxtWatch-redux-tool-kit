@@ -8,34 +8,42 @@ import { useLocation } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../../src/appReducer";
+import { api } from "../../actions/videosInHomeAc";
+
+const VideoPrefetcher = ({ searchInput }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(api.util.prefetch("videosInHome", searchInput, { force: true }))
+      .then(() => {})
+      .catch((error) => {});
+
+    return () => {};
+  }, [dispatch, searchInput]);
+
+  return null;
+};
 
 export function Panel({ props, setting }) {
   const darkMode = { color: "white" };
   const light = { color: "black" };
   const location = useLocation();
-  const { mode, pagein } = useSelector((state) => state.modePageinSavedVid);
+  const { mode, pagein } = useSelector(
+    (state) => state.modePageinSavedVid || {}
+  );
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   const savedPage = localStorage.getItem("pagein");
-  //   if (savedPage) {
-  //     handlePage(savedPage);
-  //   }
-  // }, [handlePage]);
+
   const handlePage = (newItem) => {
     localStorage.setItem("pagein", newItem);
     dispatch(setPage(newItem));
   };
-  // useEffect(() => {
-  //   const savedPage = localStorage.getItem("pagein");
-  //   if (savedPage) {
-  //     handlePage(savedPage);
-  //   }
-  // }, [handlePage]);
+
   useEffect(() => {
     const currentPath = location;
     const num = currentPath.pathname.split("/").pop();
     handlePage(num);
-  }, []);
+  }, [location, dispatch]);
+
   const Num = (word) => {
     handlePage(word);
     setting({ display: "none" });
@@ -57,6 +65,9 @@ export function Panel({ props, setting }) {
                 className={`sidePanelOptions ${
                   pagein === "Home" ? (mode ? "Clicked" : "lightClick") : null
                 }`}
+                onMouseEnter={() => {
+                  return <VideoPrefetcher searchInput="" />;
+                }}
                 onClick={() => Num("Home")}
               >
                 <FaHome
@@ -172,12 +183,7 @@ function SidePanel({ Num }) {
   const location = useLocation();
   const { mode, pagein } = useSelector((state) => state.modePageinSavedVid);
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   const savedPage = localStorage.getItem("pagein");
-  //   if (savedPage) {
-  //     handlePage(savedPage);
-  //   }
-  // }, [handlePage]);
+
   const handlePage = (newItem) => {
     localStorage.setItem("pagein", newItem);
     dispatch(setPage(newItem));
@@ -187,12 +193,16 @@ function SidePanel({ Num }) {
     const num = currentPath.pathname.split("/").pop();
     handlePage(num);
   }, []);
+
   return (
     <div className="contentWithPanel">
       <div className="sidePanel">
         <div className="sidePanelOptionsContainer">
           <Link to="/NxtWatch/Home">
             <div
+              onMouseEnter={() => {
+                return <VideoPrefetcher searchInput="" />;
+              }}
               className={`sidePanelOptions ${
                 pagein === "Home" ? (mode ? "Clicked" : "lightClick") : null
               }`}
