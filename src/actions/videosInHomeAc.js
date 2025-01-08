@@ -31,14 +31,13 @@ export const api = createApi({
       // Better error handling
       transformErrorResponse: (error) => ({
         status: error.status,
-        data: error.data || { error_msg: "An unexpected error occurred" },
+        data: error.data,
       }),
     }),
     videosInHome: build.query({
       query: (result) => ({
         url: `/videos/all?search=${result.searchInput}`,
         method: "GET",
-        // headers.set("Authorization", `Bearer ${cookieToken}`);
         headers: {
           Authorization: `Bearer ${result.cookieToken}`,
         },
