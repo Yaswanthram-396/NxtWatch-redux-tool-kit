@@ -6,42 +6,54 @@ import Cookies from "js-cookie";
 import React from "react";
 // import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import { useVideosInTrendingQuery } from "../actions/videosInHomeAc";
 import { useSelector } from "react-redux";
 
 export default function Trending() {
   const [allData, setData] = useState([]);
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
   const { mode } = useSelector((state) => state.modePageinSavedVid);
-  const fetchData = async () => {
-    const cookieToken = Cookies.get("jwt_token");
-    setloading(true);
+  // const fetchData = async () => {
+  //   const cookieToken = Cookies.get("jwt_token");
+  //   setloading(true);
 
-    try {
-      const response = await fetch("https://apis.ccbp.in/videos/trending", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${cookieToken}`,
-        },
-      });
+  //   try {
+  //     const response = await fetch("https://apis.ccbp.in/videos/trending/", {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${cookieToken}`,
+  //       },
+  //     });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-      const data = await response.json();
-      setData(data.videos);
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch data");
+  //     }
+  //     const data = await response.json();
+  //     setData(data.videos);
 
-      setloading(false);
-    } catch (error) {
-      console.log("CATCH EXICUTED");
-      console.error("Error fetching data:", error.message);
-      setloading(false);
-    }
-  };
+  //     setloading(false);
+  //   } catch (error) {
+  //     console.log("CATCH EXICUTED");
+  //     console.error("Error fetching data:", error.message);
+  //     setloading(false);
+  //   }
+  // };
+
+  const { data, error } = useVideosInTrendingQuery(Cookies.get("jwt_token"));
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (data) {
+      setData(data.data.videos);
+      setloading(false);
+    }
+  }, [data]);
+
+  // let videosArray = [];
+  // if (data) {
+  //   videosArray = data.data.videos;}
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   const dark = {
     backgroundColor: "rgb(24,24,24)",

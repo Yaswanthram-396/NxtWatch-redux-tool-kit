@@ -18,7 +18,7 @@ const VideoPrefetcher = ({ searchInput }) => {
       .then(() => {})
       .catch((error) => {});
 
-    return () => {};
+    // return () => {};
   }, [dispatch, searchInput]);
 
   return null;
@@ -199,7 +199,7 @@ function SidePanel({ Num }) {
           <Link to="/NxtWatch/Home">
             <div
               onMouseEnter={() => {
-                return <VideoPrefetcher searchInput="" />;
+                <VideoPrefetcher searchInput="" />;
               }}
               className={`sidePanelOptions ${
                 pagein === "Home" ? (mode ? "Clicked" : "lightClick") : null

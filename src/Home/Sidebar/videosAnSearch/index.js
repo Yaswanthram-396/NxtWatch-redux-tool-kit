@@ -176,7 +176,7 @@ import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useVideosInHomeQuery } from "../../../actions/videosInHomeAc";
 import { useDispatch } from "react-redux";
-import { api } from "../../../actions/videosInHomeAc";
+// import { api } from "../../../actions/videosInHomeAc";
 
 // export const PrefetchVideos = ({ searchInput = "" }) => {
 //   console.log(searchInput);
@@ -194,8 +194,12 @@ import { api } from "../../../actions/videosInHomeAc";
 const GetApiRes = () => {
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(true);
+  // const cookieToken = Cookies.get("jwt_token");
 
-  const { data, error } = useVideosInHomeQuery(searchInput);
+  const { data, error } = useVideosInHomeQuery({
+    searchInput: searchInput,
+    cookieToken: Cookies.get("jwt_token"),
+  });
   const handleSearchInput = (e) => {
     setSearchInput(e.target.value);
   };
